@@ -4,6 +4,11 @@ var bodyParser = require("body-Parser");
 var cors = require("cors");
 var mongojs = require("mongojs");
 
+// Mongo
+var db = mongojs("birdsDatabase");
+var Bird = db.collection("birds"); //capitalized because constructor function that canbe used later on
+var Place = db.collecton("places");
+
 // Express
 var app = express();
 
