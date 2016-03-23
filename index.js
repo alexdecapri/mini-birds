@@ -27,7 +27,8 @@ app.use(cors());
 //   });
 // });
 app.post("/api/sighting", function(req, res) {
-  Sighting.insert(req.body, function(err, response) { //put things in the "body" section of Postman to test!
+  Sighting.insert(req.body, function(err, response) { //put things in the "body" section of Postman to test!  Get excited about applying this in the real world..
+  //think of a form that somnebody submits... ng-click submit, goes to an angular service using the $scope in controller to actually have the user manipulate that data.. change it to json, http post request, then eventually to req.body
     if (err) {
       res.send(err);
     } else {
@@ -62,7 +63,27 @@ app.get("/api/sighting", function(req, res) {
       res.json(response);
     }
   });
-})
+});
+
+//for app.put try using "/api/sighting/:id" AND "/api/sighting" with a query... think of situations where one would be better or maybe even both! (username, then query for friends list or something)
+app.put("/api/sighting/:id", function (req, res) {
+  Sighting.findAndModify({
+    query: {
+      _id: mongojs.ObjectId(req.query.id) //locating by id to change other properties
+    },
+    update: {
+      $set: req.body
+    }
+  },
+  function(err, response) {
+    console.log(err, response);
+    if(err) {
+      res.send(err);
+    } else {
+      res.json(response);
+    }
+  });
+});
 
 // Connection
 var port = 8000;
